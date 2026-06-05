@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>LINEELEVEN.DEV — Premium Custom Designs & Websites</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --pacific: #009FB7;
+      --mustard: #FED766;
+      --shadow: #1A1A1A;
+      --white: #FFFFFF;
+      --offwhite: #F5F7FA;
+      --transition: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Typography */
+    .hero-headline {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subhead {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .body-text {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #3a4a5a;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    /* Hero 2-column */
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      min-height: 90vh;
+      gap: 3rem;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-gif {
+      flex: 1;
+    }
+
+    .gif-frame {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 32px;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 0 0 3px rgba(0, 159, 183, 0.3);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .gif-frame:hover {
+      box-shadow: 0 40px 60px -20px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.25),
+        0 0 0 4px rgba(0, 159, 183, 0.5);
+    }
+
+    @keyframes gentleTilt {
+      0% {
+        transform: perspective(800px) rotateY(0deg) rotateX(0deg);
+      }
+
+      25% {
+        transform: perspective(800px) rotateY(6deg) rotateX(2deg);
+      }
+
+      75% {
+        transform: perspective(800px) rotateY(-6deg) rotateX(-2deg);
+      }
+
+      100% {
+        transform: perspective(800px) rotateY(0deg) rotateX(0deg);
+      }
+    }
+
+    .hero-gif .gif-frame {
+      animation: gentleTilt 5s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    .gif-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Before/After Slider with text overlay */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      border-radius: 28px;
+      overflow: hidden;
+      cursor: ew-resize;
+      box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider-img {
+      width: 100%;
+      display: block;
+    }
+
+    .slider-after-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .slider-handle {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 3px;
+      height: 100%;
+      background: var(--mustard);
+      transform: translateX(-50%);
+      z-index: 10;
+      box-shadow: 0 0 0 2px var(--pacific);
+    }
+
+    .slider-label-before,
+    .slider-label-after {
+      position: absolute;
+      bottom: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      z-index: 12;
+      pointer-events: none;
+    }
+
+    .slider-label-before {
+      left: 20px;
+    }
+
+    .slider-label-after {
+      right: 20px;
+      background: var(--pacific);
+    }
+
+    /* Auto-scrolling continuous scroll bar with images */
+    .scroll-wrapper {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .scroll-track-auto {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      animation: scrollLeft 30s linear infinite;
+    }
+
+    .scroll-track-auto:hover {
+      animation-play-state: paused;
+    }
+
+    .scroll-item {
+      display: inline-block;
+      width: 200px;
+      height: 120px;
+      border-radius: 16px;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .scroll-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .scroll-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px -8px #228CDB;
+    }
+
+    .scroll-item:hover img {
+      transform: scale(1.05);
+    }
+
+    @keyframes scrollLeft {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .scroll-item {
+        width: 150px;
+        height: 90px;
+      }
+
+      .scroll-track-auto {
+        gap: 1rem;
+        animation: scrollLeft 20s linear infinite;
+      }
+    }
+
+    /* Projects */
+    /* Projects Section - Exact 1905:961 Aspect Ratio */
+    .project-card {
+      margin-bottom: 70px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .project-img {
+      width: 100%;
+      aspect-ratio: 1905 / 961;
+      border-radius: 28px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      background: linear-gradient(135deg, #1e2a3a 0%, #2a3a4a 100%);
+    }
+
+    /* For background-image method */
+    .project-img[style*="background-image"] {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* For <img> tag method */
+    .project-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Hover effect - box shadow only */
+    .project-img:hover {
+      box-shadow: 0 20px 35px -12px rgba(254, 74, 73, 0.4);
+    }
+
+    /* Optional: subtle scale on hover (optional - remove if you don't want it) */
+    .project-img:hover img {
+      transform: scale(1.02);
+    }
+
+    .project-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-top: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .project-card:hover .project-title {
+      color: #228CDB;
+    }
+
+    .project-desc {
+      color: #4a5a6a;
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .project-links {
+      margin-top: 16px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      background: #228CDB;
+      color: white;
+      border-radius: 40px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none;
+      cursor: pointer;
+    }
+
+    .project-link:hover {
+      background: #FE4A49;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px -8px rgba(254, 74, 73, 0.4);
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .project-img {
+        border-radius: 20px;
+      }
+
+      .project-title {
+        font-size: 1.3rem;
+      }
+
+      .project-desc {
+        font-size: 0.9rem;
+      }
+
+      .project-link {
+        padding: 6px 16px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Numbered services */
+    .service-row {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 1.8rem 0;
+    }
+
+    .service-num {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--pacific);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2rem;
+      font-weight: 600;
+      border-radius: 60px;
+      text-decoration: none;
+      transition: all 0.3s var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-pacific {
+      background: var(--pacific);
+      color: white;
+    }
+
+    .btn-pacific:hover {
+      background: var(--mustard);
+      color: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+    }
+
+    .btn-outline-light:hover {
+      background: white;
+      color: var(--pacific);
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+    }
+
+    .btn-whatsapp:hover {
+      background: var(--mustard);
+      color: var(--shadow);
+    }
+
+    /* Header */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.2rem 2rem;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-decoration: none;
+      color: var(--shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: var(--shadow);
+    }
+
+    .nav-link:hover {
+      color: var(--pacific);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--shadow);
+    }
+
+    /* Background scroll overlay */
+    .bg-scroll {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      transition: background-color 0.6s var(--transition);
+      background-color: var(--pacific);
+    }
+
+    section {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero background video container with dark veil */
+    .hero-bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      filter: grayscale(100%);
+    }
+
+    /* Dark veil overlay */
+    .hero-bg-video::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #009fb71f;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid {
+        flex-direction: column;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .project-img {
+        height: 200px;
+      }
+    }
+
+    /* Gallery pop-up styles (for JS version) */
+    .gallery-pop-up {
+      animation: fadeInUp 0.2s ease;
+      cursor: pointer;
+    }
+
+    .gallery-pop-up img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Ensure gallery items have proper stacking context */
+    .scroll-item {
+      position: relative;
+      z-index: 1;
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-scroll" id="bgScroll"></div>
+
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a href="#" class="logo">LINEELEVEN.DEV</a>
+      <div class="nav-links">
+        <a href="#work" class="nav-link">WORK</a>
+        <a href="#services" class="nav-link">SERVICES</a>
+        <a href="#about" class="nav-link">ABOUT</a>
+        <a href="#contact" class="nav-link">CONTACT</a>
+      </div>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION WITH SCROLLING GALLERY AT BOTTOM -->
+    <section data-bg-color="#009FB7" id="home"
+      style="background: var(--pacific); min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+
+      <!-- Background Gradient Video Container with dark veil -->
+      <div class="hero-bg-video">
+        <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.7;">
+          <source src="LINEELEVEN-BG-LOOP.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="container" style="position: relative; z-index: 2; flex: 1; display: flex; align-items: center;">
+        <div class="hero-grid">
+          <div class="hero-text fade-up" style="color: white;">
+
+            <!-- Honest trust badge -->
+            <div class="hero-badge"
+              style="display: inline-block; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); padding: 0.3rem 1rem; border-radius: 60px; margin-bottom: 1.5rem;">
+              <span style="color: var(--mustard);">✦</span> Nairobi-based · Remote-first · Founder-led
+            </div>
+
+            <!-- Main headline -->
+            <div class="hero-headline">
+              Premium custom<br>
+              designs & websites<br>
+              <span style="color: var(--mustard);">that actually work.</span>
+            </div>
+
+            <!-- Subheadline - honest value prop -->
+            <div class="body-text"
+              style="color: rgba(255,255,255,0.9); margin: 1.5rem 0; max-width: 500px; font-size: 1.1rem; line-height: 1.5;">
+              Internal dashboards, client portals, and high-performance websites. Built by a lean, focused team in
+              Nairobi.
+            </div>
+
+            <!-- CTA Buttons -->
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <a href="#work" class="btn btn-outline-light" style="border-width: 2px;">See our work →</a>
+              <a href="#contact" class="btn" style="background: var(--mustard); color: var(--shadow);">Start a project
+                →</a>
+            </div>
+
+          </div>
+
+          <!-- GIF Right Column -->
+          <div class="hero-gif fade-up">
+            <div class="gif-frame">
+              <img src="LINEELEVEN.DEV.gif" alt="LINEELEVEN.DEV animated showcase"
+                style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTO-SCROLLING GALLERY - Anchored at bottom of hero section -->
+      <div class="hero-gallery" style="position: relative; z-index: 2; width: 100%; padding: 20px 0 30px 0;">
+        <div class="scroll-wrapper">
+          <div class="scroll-track-auto" id="autoScrollTrack">
+            <div class="scroll-item"><img src="imageAfter.png" alt="After Redesign"></div>
+            <div class="scroll-item"><img src="img1.png" alt="Project Image 1"></div>
+            <div class="scroll-item"><img src="greenInitiative.png" alt="Green Initiative"></div>
+            <div class="scroll-item"><img src="portfolio.png" alt="Portfolio"></div>
+            <div class="scroll-item"><img src="revenue-report.png" alt="Revenue Report"></div>
+            <div class="scroll-item"><img src="services.png" alt="Services"></div>
+            <div class="scroll-item"><img src="gsms.png" alt="GSMS"></div>
+            <!-- Duplicate for seamless loop -->
+            <div class="scroll-item"><img src="imageAfter.png" alt="After Redesign"></div>
+            <div class="scroll-item"><img src="img1.png" alt="Project Image 1"></div>
+            <div class="scroll-item"><img src="greenInitiative.png" alt="Green Initiative"></div>
+            <div class="scroll-item"><img src="portfolio.png" alt="Portfolio"></div>
+            <div class="scroll-item"><img src="revenue-report.png" alt="Revenue Report"></div>
+            <div class="scroll-item"><img src="services.png" alt="Services"></div>
+            <div class="scroll-item"><img src="greenInitiative.png" alt="Green Initiative"></div>
+            <div class="scroll-item"><img src="gsms.png" alt="GSMS"></div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEFORE/AFTER SLIDER (with image placeholders) -->
+    <section data-bg-color="#FFFFFF" style="padding: 80px 0;">
+      <div class="container">
+        <div class="fade-up" style="text-align: center; margin-bottom: 2rem;">
+          <div class="hero-subhead" style="color: var(--pacific);">TRANSFORMATION</div>
+          <div class="section-title">Before / After Web Redesigns</div>
+          <p class="body-text" style="max-width: 600px; margin: 0.5rem auto;">See how we transform outdated websites
+            into modern, high-conversion digital experiences</p>
+        </div>
+        <div class="fade-up">
+          <div id="compareSlider" class="slider-container">
+            <img class="slider-img" src="imageBefore.png" alt="Before redesign"
+              onerror="this.src='https://placehold.co/1200x550/e2e8f0/64748b?text=Before:+Placeholder+Replace+with+imageBefore.jpg'">
+            <div class="slider-after-wrap" id="afterWrap">
+              <img class="slider-img" src="imageAfter.png" alt="After redesign"
+                onerror="this.src='https://placehold.co/1200x550/009FB7/FFFFFF?text=After:+Placeholder+Replace+with+imageAfter.jpg'">
+            </div>
+            <div class="slider-handle" id="sliderHandle"></div>
+            <div class="slider-label-before">BEFORE</div>
+            <div class="slider-label-after">AFTER</div>
+          </div>
+          <div style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #6a7a8a;">← Drag the handle to
+            compare →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="work" data-bg-color="#FFFFFF" class="section">
+      <div class="container">
+        <div class="fade-up" style="margin-bottom: 3rem;">
+          <div class="hero-subhead" style="color: var(--pacific);">SELECTED WORK</div>
+          <div class="section-title">Projects that deliver</div>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-img">
+            <img src="gsms.png" alt="GSMS - Garage Service Management System">
+          </div>
+          <div class="project-title">GSMS - Garage Service Management System</div>
+          <div class="project-desc">Complete garage management platform for customers, technicians, and admins —
+            featuring service booking, job tracking, invoices, notifications, and analytics. Deployed on Vercel with
+            full demo credentials.</div>
+          <div class="project-links">
+            <a href="https://gsms-garage-service-management-system-bscnn36vg.vercel.app/" target="_blank"
+              class="project-link">Live Demo →</a>
+          </div>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-img">
+            <img src="greenInitiative.png" alt="Green Initiative - Environmental NGO Demo Website">
+          </div>
+          <div class="project-title">Green Initiative — Environmental NGO Demo</div>
+          <div class="project-desc">A fictional environmental organization website built for portfolio展示. Features
+            brutalist/expressive design with bold typography, asymmetric layouts, and a full color palette of deep
+            forest green, vibrant teal, and soft mint.</div>
+          <div class="project-links">
+            <a href="https://green-initiative-ten.vercel.app/" target="_blank" class="project-link">Live Demo →</a>
+          </div>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-img">
+            <img src="portfolio.png" alt="Tyrone Jack Portfolio">
+          </div>
+          <div class="project-title">Tyrone Jack Portfolio</div>
+          <div class="project-desc">A modern, full‑stack developer portfolio built for LINEELEVEN.DEV. Features animated
+            gradient hero, interactive skill progress bars, smooth scroll reveals, and custom wave dividers.</div>
+          <div class="project-links">
+            <a href="https://tyronejack.vercel.app/" target="_blank" class="project-link">Live Demo →</a>
+          </div>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-img">
+            <img src="prrfeckt.png" alt="PRRFECKT — Emotion-First Producer Website">
+          </div>
+          <div class="project-title">PRRFECKT.BEATS — Producer Portfolio</div>
+          <div class="project-desc">A producer website built around emotion, not genre. Features split hero layout with
+            YouTube beat showcase, mood-based filtering, animated gradient backgrounds, and a philosophy-driven design
+            that prioritizes feeling over formulas.</div>
+          <div class="project-links">
+            <a href="https://prrfeckt-beats.vercel.app/" target="_blank" class="project-link">Live Demo →</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" data-bg-color="#FED766" class="section">
+      <div class="container">
+        <div class="fade-up" style="margin-bottom: 2rem;">
+          <div class="hero-subhead" style="color: var(--pacific);">CAPABILITIES</div>
+          <div class="section-title">What we build</div>
+        </div>
+        <div class="fade-up">
+          <div class="service-row">
+            <div class="service-num">01</div>
+            <div style="font-size: 1.4rem; font-weight: 600; margin: 0.2rem 0;">Before & After Redesigns</div>
+            <div class="body-text">Complete UX overhauls that boost conversion +45% and cut load times in half.</div>
+          </div>
+          <div class="service-row">
+            <div class="service-num">02</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">Custom Website Design</div>
+            <div class="body-text">Pixel‑perfect, mobile‑first interfaces tailored to your brand identity.</div>
+          </div>
+          <div class="service-row">
+            <div class="service-num">03</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">SEO & Growth Marketing</div>
+            <div class="body-text">Data‑driven strategies that drive +180% organic traffic.</div>
+          </div>
+          <div class="service-row">
+            <div class="service-num">04</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">Custom Web Development</div>
+            <div class="body-text">React, Node, Python, Supabase — internal tools and client portals.</div>
+          </div>
+          <div class="service-row">
+            <div class="service-num">05</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">Logo & Visual Identity</div>
+            <div class="body-text">Complete branding kits, from logo to color system.</div>
+          </div>
+          <div class="service-row">
+            <div class="service-num">06</div>
+            <div style="font-size: 1.4rem; font-weight: 600;">Maintenance & Support</div>
+            <div class="body-text">24/7 monitoring, security updates, and performance tuning.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" data-bg-color="#009FB7" style="padding: 80px 0; color: white;">
+      <div class="container">
+        <div class="fade-up" style="max-width: 700px;">
+          <div class="hero-subhead" style="color: var(--mustard);">NAIROBI / REMOTE</div>
+          <div class="section-title" style="color: white;">Founder-led. No bureaucracy. Just results.</div>
+          <div class="body-text" style="margin-top: 1.5rem; opacity: 0.9; color: white;">We're a digital agency
+            headquartered in Nairobi, Kenya, with a lean, remote-first model. Every client gets direct access to the
+            founding team. No account managers, no hidden fees — just world‑class engineering and design.</div>
+          <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 60px;">✅ Contract
+              firm</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 60px;">✅ Global
+              clients</span>
+            <span style="background: rgba(255,255,255,0.2); padding: 0.3rem 1rem; border-radius: 60px;">✅ Startup
+              agility</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" data-bg-color="#FFFFFF" style="padding: 80px 0;">
+      <div class="container">
+        <div class="fade-up" style="text-align: center; max-width: 600px; margin: 0 auto;">
+          <div class="hero-subhead" style="color: var(--pacific);">GET IN TOUCH</div>
+          <div class="section-title" style="margin-bottom: 1rem;">Let's build what's next</div>
+          <p class="body-text">Email or WhatsApp — we'll respond within 24 hours.</p>
+        </div>
+        <div class="fade-up"
+          style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
+          <a href="mailto:lineeleven.dev@protonmail.com?subject=Project%20Inquiry%20-%20LINEELEVEN.DEV&body=Hello%20LINEELEVEN.DEV%20team,%0A%0AI'm%20interested%20in%20your%20services.%20Please%20tell%20me%20more%20about%20how%20you%20can%20help%20with%20my%20project.%0A%0AThanks!"
+            class="btn btn-pacific">📧 Email us →</a>
+          <a href="https://wa.me/254104083336?text=Hello%20LINEELEVEN.DEV!%20I'm%20interested%20in%20your%20web%20design%20and%20development%20services.%20I'd%20like%20to%20discuss%20a%20project.%20Please%20get%20back%20to%20me%20when%20possible.%20Thanks!"
+            target="_blank" class="btn btn-whatsapp">💬 WhatsApp us →</a>
+        </div>
+        <div class="fade-up" style="text-align: center; margin-top: 2rem; font-size: 0.8rem; color: #6a7a8a;">
+          or directly: lineeleven.dev@protonmail.com
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: var(--shadow); color: #aaa; padding: 3rem 2rem;">
+    <div
+      style="max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
+      <div><strong>LINEELEVEN.DEV</strong><br>© 2026 — Nairobi / remote-first</div>
+      <div><a href="#work" style="color: #aaa; text-decoration: none;">Work</a><br><a href="#services"
+          style="color: #aaa; text-decoration: none;">Services</a><br><a href="#about"
+          style="color: #aaa; text-decoration: none;">About</a></div>
+      <div>lineeleven.dev@protonmail.com<br>+254 104 083 336 (WhatsApp)</div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll background transitions
+    const colorSections = document.querySelectorAll('section[data-bg-color]');
+    const bgScroll = document.getElementById('bgScroll');
+    function updateBg() {
+      let active = null;
+      for (let s of colorSections) {
+        const rect = s.getBoundingClientRect();
+        const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+        if (visible > window.innerHeight * 0.2) { active = s; break; }
+      }
+      if (active) bgScroll.style.backgroundColor = active.dataset.bgColor;
+      else if (colorSections.length) bgScroll.style.backgroundColor = colorSections[0].dataset.bgColor;
+    }
+    window.addEventListener('scroll', () => requestAnimationFrame(updateBg));
+    updateBg();
+
+    // Fade-up animations
+    const fades = document.querySelectorAll('.fade-up');
+    function checkFade() {
+      fades.forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight - 80) el.classList.add('visible');
+      });
+    }
+    window.addEventListener('scroll', checkFade);
+    checkFade();
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    });
+
+    // Before/After Slider Logic
+    const slider = document.getElementById('compareSlider');
+    const afterWrap = document.getElementById('afterWrap');
+    const handle = document.getElementById('sliderHandle');
+    if (slider && afterWrap && handle) {
+      let dragging = false;
+      function setPosition(clientX) {
+        const rect = slider.getBoundingClientRect();
+        let x = clientX - rect.left;
+        x = Math.min(Math.max(x, 0), rect.width);
+        const percent = (x / rect.width) * 100;
+        afterWrap.style.width = percent + '%';
+        handle.style.left = percent + '%';
+      }
+      function onMove(e) {
+        if (!dragging) return;
+        const cx = e.clientX ?? (e.touches ? e.touches[0].clientX : null);
+        if (cx) setPosition(cx);
+      }
+      slider.addEventListener('mousedown', () => dragging = true);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', () => dragging = false);
+      slider.addEventListener('touchstart', () => dragging = true);
+      window.addEventListener('touchmove', onMove);
+      window.addEventListener('touchend', () => dragging = false);
+      afterWrap.style.width = '50%';
+      handle.style.left = '50%';
+    }
+
+    // Auto-scrolling continuous scroll (infinite)
+    const autoTrack = document.getElementById('autoScrollTrack');
+    if (autoTrack) {
+      const items = autoTrack.innerHTML;
+      autoTrack.innerHTML = items + items;
+    }
+
+    // Mobile navigation
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.createElement('div');
+    mobileNav.className = 'mobile-nav';
+    mobileNav.innerHTML = `<div class="close-mobile" id="closeMobile">×</div><a href="#work" class="nav-link">WORK</a><a href="#services" class="nav-link">SERVICES</a><a href="#about" class="nav-link">ABOUT</a><a href="#contact" class="nav-link">CONTACT</a>`;
+    document.body.appendChild(mobileNav);
+    const styleMobile = document.createElement('style');
+    styleMobile.textContent = `.mobile-nav{position:fixed;top:0;right:-100%;width:70%;max-width:280px;height:100vh;background:white;z-index:1100;padding:6rem 2rem;display:flex;flex-direction:column;gap:2rem;transition:right 0.3s ease;box-shadow:-5px 0 20px rgba(0,0,0,0.05);}.mobile-nav.active{right:0;}.close-mobile{position:absolute;top:1.5rem;right:1.5rem;font-size:2rem;cursor:pointer;}`;
+    document.head.appendChild(styleMobile);
+    const closeMobile = document.getElementById('closeMobile');
+    hamburger?.addEventListener('click', () => mobileNav.classList.add('active'));
+    closeMobile?.addEventListener('click', () => mobileNav.classList.remove('active'));
+    document.querySelectorAll('.mobile-nav .nav-link').forEach(link => link.addEventListener('click', () => mobileNav.classList.remove('active')));
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-link').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId && targetId !== '#') {
+          const target = document.querySelector(targetId);
+          if (target) {
+            e.preventDefault();
+            window.scrollTo({ top: target.offsetTop - 70, behavior: 'smooth' });
+            mobileNav.classList.remove('active');
+          }
+        }
+      });
+    });
+    // Large Pop-up Gallery Effect - Hover only, appears upward from original position
+    (function () {
+      const scrollItems = document.querySelectorAll('.scroll-item');
+      let activePopUp = null;
+      let hoverTimeout = null;
+
+      function createLargePopUp(imgSrc, originalItem, originalRect) {
+        // Remove existing pop-up if any
+        if (activePopUp) {
+          activePopUp.remove();
+          activePopUp = null;
+        }
+
+        // Calculate pop-up size (larger - about 45-50% of screen width)
+        const screenWidth = window.innerWidth;
+        const popUpWidth = Math.min(screenWidth * 0.45, 650);
+        const popUpHeight = popUpWidth * (961 / 1905); // Maintain 1905:961 aspect ratio
+
+        // Position pop-up above the original image
+        const scrollContainer = document.querySelector('.scroll-wrapper');
+        const scrollRect = scrollContainer ? scrollContainer.getBoundingClientRect() : { top: 0 };
+        const relativeTop = originalRect.top - scrollRect.top;
+
+        // Calculate position - pop up upward from original position
+        let topPosition = originalRect.top - popUpHeight - 15;
+        let leftPosition = originalRect.left + (originalRect.width / 2) - (popUpWidth / 2);
+
+        // Ensure pop-up stays within viewport
+        if (topPosition < 10) {
+          // If not enough space above, position below
+          topPosition = originalRect.bottom + 15;
+        }
+
+        // Ensure left/right boundaries
+        if (leftPosition < 10) {
+          leftPosition = 10;
+        }
+        if (leftPosition + popUpWidth > window.innerWidth - 10) {
+          leftPosition = window.innerWidth - popUpWidth - 10;
+        }
+
+        // Create pop-up container
+        activePopUp = document.createElement('div');
+        activePopUp.className = 'gallery-pop-up';
+        activePopUp.style.position = 'fixed';
+        activePopUp.style.top = `${topPosition}px`;
+        activePopUp.style.left = `${leftPosition}px`;
+        activePopUp.style.width = `${popUpWidth}px`;
+        activePopUp.style.height = `${popUpHeight}px`;
+        activePopUp.style.backgroundColor = '#1a1a2e';
+        activePopUp.style.borderRadius = '20px';
+        activePopUp.style.boxShadow = '0 30px 60px -15px rgba(0, 0, 0, 0.5)';
+        activePopUp.style.zIndex = '10000';
+        activePopUp.style.border = '3px solid #228CDB';
+        activePopUp.style.overflow = 'hidden';
+        activePopUp.style.pointerEvents = 'none'; // Allow mouse to pass through to original item
+        activePopUp.style.animation = 'popUpFromBottom 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = 'Gallery preview';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+        img.style.display = 'block';
+        img.style.backgroundColor = '#0f0f1a';
+
+        activePopUp.appendChild(img);
+        document.body.appendChild(activePopUp);
+      }
+
+      function removePopUp() {
+        if (activePopUp) {
+          activePopUp.remove();
+          activePopUp = null;
+        }
+      }
+
+      scrollItems.forEach(item => {
+        const img = item.querySelector('img');
+        if (!img) return;
+        const originalSrc = img.src;
+
+        item.addEventListener('mouseenter', (e) => {
+          // Clear any pending removal
+          if (hoverTimeout) {
+            clearTimeout(hoverTimeout);
+            hoverTimeout = null;
+          }
+
+          // Get the exact position of the original item
+          const rect = item.getBoundingClientRect();
+
+          // Darken other items
+          scrollItems.forEach(other => {
+            if (other !== item) {
+              other.style.opacity = '0.3';
+              other.style.filter = 'grayscale(0.6) blur(2px)';
+              other.style.transition = 'all 0.2s ease';
+            }
+          });
+
+          // Create pop-up above the hovered item
+          createLargePopUp(originalSrc, item, rect);
+        });
+
+        item.addEventListener('mouseleave', () => {
+          // Small delay to prevent flickering when moving to pop-up
+          hoverTimeout = setTimeout(() => {
+            removePopUp();
+
+            // Restore all items
+            scrollItems.forEach(other => {
+              other.style.opacity = '';
+              other.style.filter = '';
+              other.style.transition = '';
+            });
+          }, 100);
+        });
+      });
+
+      // Add keyframe animation to document
+      const style = document.createElement('style');
+      style.textContent = `
+    @keyframes popUpFromBottom {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  `;
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+
+</html>
